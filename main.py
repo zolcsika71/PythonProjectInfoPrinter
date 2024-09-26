@@ -12,31 +12,33 @@ def get_hostname():
 def get_project_folder():
     return os.getcwd()
 
-def get_ssh_sftp_details():
-    try:
-        result = subprocess.run(['grep', '-i', 'ssh', '/etc/hosts'], capture_output=True, text=True)
-        ssh_host = result.stdout.strip().split()[-1] if result.stdout else "Unknown"
-        return ssh_host, ssh_host  # Assuming SFTP uses the same host as SSH
-    except Exception:
+def get_project_name():
+    return input("Enter the Replit project name: ")
+
+def get_ssh_sftp_details(project_name):
+    if project_name == "PythonProjectInfoPrinter":
+        user = "f337ac3a-fd45-46a6-9868-0e094366997e"
+        host = "f337ac3a-fd45-46a6-9868-0e094366997e-00-3oo6dq7zmtrws.picard.replit.dev"
+        return user, host
+    else:
         return "Unknown", "Unknown"
 
 def main():
-    user = get_user()
+    project_name = get_project_name()
+    user, host = get_ssh_sftp_details(project_name)
     hostname = get_hostname()
-    project_name = "this project"
     project_folder = get_project_folder()
-    ssh_host, sftp_host = get_ssh_sftp_details()
     port = 22
     key_location = "~/.ssh/replit"
 
     print("System and Project Information:")
     print("=" * 30)
-    print(f"User:            {user}")
-    print(f"Hostname:        {hostname}")
     print(f"Project Name:    {project_name}")
+    print(f"User:            {user}")
+    print(f"Host:            {host}")
+    print(f"SSH Connection:  ssh {user}@{host}")
+    print(f"Hostname:        {hostname}")
     print(f"Project Folder:  {project_folder}")
-    print(f"SSH Host:        {ssh_host}")
-    print(f"SFTP Host:       {sftp_host}")
     print(f"Port:            {port}")
     print(f"Key Location:    {key_location}")
 
