@@ -3,6 +3,7 @@ import socket
 import sys
 import subprocess
 import psutil
+import json
 
 def get_user():
     return os.getenv('REPL_OWNER', 'Unknown')
@@ -17,11 +18,20 @@ def get_project_name():
     return input("Enter the Replit project name: ")
 
 def get_ssh_sftp_details(project_name):
-    if project_name == "PythonProjectInfoPrinter":
-        user = "f337ac3a-fd45-46a6-9868-0e094366997e"
-        host = "f337ac3a-fd45-46a6-9868-0e094366997e-00-3oo6dq7zmtrws.picard.replit.dev"
-        return user, host
-    else:
+    config_file = 'config.json'
+    try:
+        with open(config_file, 'r') as f:
+            config = json.load(f)
+        
+        if project_name in config:
+            return config[project_name]['user'], config[project_name]['host']
+        else:
+            return config['default']['user'], config['default']['host']
+    except FileNotFoundError:
+        print(f"Error: Configuration file '{config_file}' not found.")
+        return "Unknown", "Unknown"
+    except json.JSONDecodeError:
+        print(f"Error: Invalid JSON in configuration file '{config_file}'.")
         return "Unknown", "Unknown"
 
 def get_cpu_info():
