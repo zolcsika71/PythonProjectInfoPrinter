@@ -2,6 +2,7 @@ import os
 import socket
 import sys
 import subprocess
+import psutil
 
 def get_user():
     return os.getenv('REPL_OWNER', 'Unknown')
@@ -22,6 +23,25 @@ def get_ssh_sftp_details(project_name):
         return user, host
     else:
         return "Unknown", "Unknown"
+
+def get_cpu_info():
+    cpu_count = psutil.cpu_count()
+    cpu_usage = psutil.cpu_percent(interval=1)
+    return f"CPU Cores: {cpu_count}, CPU Usage: {cpu_usage}%"
+
+def get_ram_info():
+    ram = psutil.virtual_memory()
+    total_ram = ram.total / (1024 * 1024 * 1024)  # Convert to GB
+    used_ram = ram.used / (1024 * 1024 * 1024)  # Convert to GB
+    ram_percent = ram.percent
+    return f"Total RAM: {total_ram:.2f} GB, Used RAM: {used_ram:.2f} GB ({ram_percent}%)"
+
+def get_disk_info():
+    disk = psutil.disk_usage('/')
+    total_disk = disk.total / (1024 * 1024 * 1024)  # Convert to GB
+    used_disk = disk.used / (1024 * 1024 * 1024)  # Convert to GB
+    disk_percent = disk.percent
+    return f"Total Disk: {total_disk:.2f} GB, Used Disk: {used_disk:.2f} GB ({disk_percent}%)"
 
 def save_output_to_file(output):
     filename = input("Enter the filename to save the output (e.g., output.txt): ")
@@ -47,6 +67,11 @@ def main():
     output += f"Project Folder:  {project_folder}\n"
     output += f"Port:            {port}\n"
     output += f"Key Location:    {key_location}\n"
+    output += "\nDetailed System Information:\n"
+    output += "=" * 30 + "\n"
+    output += f"CPU Info:        {get_cpu_info()}\n"
+    output += f"RAM Info:        {get_ram_info()}\n"
+    output += f"Disk Info:       {get_disk_info()}\n"
 
     print(output)
 
