@@ -23,6 +23,12 @@ def get_ssh_sftp_details(project_name):
     else:
         return "Unknown", "Unknown"
 
+def save_output_to_file(output):
+    filename = input("Enter the filename to save the output (e.g., output.txt): ")
+    with open(filename, 'w') as f:
+        f.write(output)
+    print(f"Output saved to {filename}")
+
 def main():
     project_name = get_project_name()
     user, host = get_ssh_sftp_details(project_name)
@@ -31,16 +37,22 @@ def main():
     port = 22
     key_location = "~/.ssh/replit"
 
-    print("System and Project Information:")
-    print("=" * 30)
-    print(f"Project Name:    {project_name}")
-    print(f"User:            {user}")
-    print(f"Host:            {host}")
-    print(f"SSH Connection:  ssh {user}@{host}")
-    print(f"Hostname:        {hostname}")
-    print(f"Project Folder:  {project_folder}")
-    print(f"Port:            {port}")
-    print(f"Key Location:    {key_location}")
+    output = "System and Project Information:\n"
+    output += "=" * 30 + "\n"
+    output += f"Project Name:    {project_name}\n"
+    output += f"User:            {user}\n"
+    output += f"Host:            {host}\n"
+    output += f"SSH Connection:  ssh {user}@{host}\n"
+    output += f"Hostname:        {hostname}\n"
+    output += f"Project Folder:  {project_folder}\n"
+    output += f"Port:            {port}\n"
+    output += f"Key Location:    {key_location}\n"
+
+    print(output)
+
+    save_option = input("Do you want to save the output to a file? (y/n): ").lower()
+    if save_option == 'y':
+        save_output_to_file(output)
 
 if __name__ == "__main__":
     try:
