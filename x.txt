@@ -1,0 +1,10 @@
+System and Project Information:
+==============================
+Project Name:    PythonProjectInfoPrinter
+User:            f337ac3a-fd45-46a6-9868-0e094366997e
+Host:            f337ac3a-fd45-46a6-9868-0e094366997e-00-3oo6dq7zmtrws.picard.replit.dev
+SSH Connection:  ssh f337ac3a-fd45-46a6-9868-0e094366997e@f337ac3a-fd45-46a6-9868-0e094366997e-00-3oo6dq7zmtrws.picard.replit.dev
+Hostname:        65e63bb6a1e9
+Project Folder:  /home/runner/PythonProjectInfoPrinter
+Port:            22
+Key Location:    ~/.ssh/replit
